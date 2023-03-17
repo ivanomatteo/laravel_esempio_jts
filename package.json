@@ -16,5 +16,10 @@
         "tailwindcss": "^3.1.0",
         "vite": "^4.0.0",
         "vue": "^3.2.31"
+    },
+    "dependencies": {
+        "luxon": "^3.3.0",
+        "primeicons": "^6.0.1",
+        "primevue": "^3.25.0"
     }
 }
