@@ -45,8 +45,6 @@ const azione = (item) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
-
 
                     <DataTable lazy paginator :value="myOrders.data" @page="loadPage" :totalRecords="myOrders.total"
                         :first="myOrders.from" :rows="myOrders.per_page" :rowsPerPageOptions="[5, 10, 20, 50]"
