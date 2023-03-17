@@ -19,6 +19,7 @@
         "barryvdh/laravel-ide-helper": "^2.13",
         "beyondcode/laravel-dump-server": "^1.9",
         "fakerphp/faker": "^1.9.1",
+        "laravel-lang/common": "^3.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
