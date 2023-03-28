@@ -92,6 +92,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        //'email_verified_at' => 'datetime:Y-m-d\TH:i:s.u\Z',
     ];
 
     /**
@@ -106,5 +107,10 @@ class User extends Authenticatable
     function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+
+    function attr(){
+        return $this->attributes;
     }
 }
