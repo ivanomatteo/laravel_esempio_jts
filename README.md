@@ -1,66 +1,324 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Creare un progetto
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+-   `composer create-project laravel/laravel nome_progetto`
+-   `composer dump` (_ricrea gli indici di composer_)
 
-## About Laravel
+# Starter Kits
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   [Breeze](https://laravel.com/docs/10.x/starter-kits)
+-   [JetStream](https://jetstream.laravel.com/3.x/installation.html)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Pacchetti utili di base
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   https://github.com/barryvdh/laravel-debugbar
 
-## Learning Laravel
+    -   `composer require barryvdh/laravel-debugbar --dev`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   https://github.com/barryvdh/laravel-ide-helper
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    -   `composer require --dev barryvdh/laravel-ide-helper  `
+    -   `php artisan ide-helper:generate  ` (base)
+    -   `php artisan ide-helper:models -W  ` (models php-doc)
+    -   `php artisan ide-helper:eloquent  ` (vendor-eloquent)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   https://beyondco.de/docs/laravel-dump-server/installation
 
-## Laravel Sponsors
+    -   `composer require --dev beyondcode/laravel-dump-server`
+    -   `php artisan dump-server  ` (listen for dumps)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Links rapidi documentazione
 
-### Premium Partners
+-   [Migration Tipi Colonne](https://laravel.com/docs/10.x/migrations#columns)
+-   [Validatori predefiniti](https://laravel.com/docs/10.x/validation#available-validation-rules)
+-   [Helpers](https://laravel.com/docs/10.x/helpers#available-methods)
+-   [Collections](https://laravel.com/docs/10.x/collections#available-methods)
+-   [Casts](https://laravel.com/docs/10.x/eloquent-mutators#attribute-casting)
+-   [Framework API](https://laravel.com/api/10.x/)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+# Artisan commands
 
-## Contributing
+## Models and Migrations
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
 
-## Code of Conduct
+# Make model with Factory and Migration
+php artisan make:model Post -c -f -m
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Make Pivot Model with Migration
+php artisan make:model Pivot/PostUser -m -p
 
-## Security Vulnerabilities
+# Make migration create
+php artisan make:migration create_posts --create posts
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Make migration alter
+php artisan make:migration alter_posts_add_notes --table posts
 
-## License
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Su SQLite per modificare le colonne, installare il pacchetto:**
+
+```bash
+composer require doctrine/dbal
+```
+
+## Controllers
+
+```bash
+
+# Make Controller
+php artisan make:controller PostEmptyController
+
+# Make Invocable Controller (sigle action controller)
+php artisan make:controller PostArchive -i
+
+# Make Controller Resource
+php artisan make:controller PostController -r
+
+# Make Controller API Resource
+php artisan make:controller PostApiController -r --api
+
+```
+
+## Run Migrations and Seeders
+
+```bash
+
+php artisan migrate
+php artisan migrate:rollback
+php artisan migrate:fresh --seed
+php artisan migrate:refresh --seed
+
+php artisan db:seed
+php artisan db:seed --class SampleSeeder
+
+```
+
+# Relations Cheat Sheets
+
+## One to One
+
+#### Models
+
+```php
+class User extends Model {
+    function userDetail(){
+        return $this->hasOne(UserDetail::class);
+        //return $this->hasOne(UserDetail::class, foreignKey: 'user_id', localKey: 'id');
+    }
+}
+
+class UserDetail extends Model {
+    function user(){
+        return $this->belongsTo(User::class);
+    }
+    //return $this->belongsTo(
+    //  related: User::class,
+    //  foreignKey: 'user_id', // deduced by this function name
+    //  ownerKey: 'id'
+    // );
+```
+
+#### Migrations
+
+```php
+Schema::create('user_details', function (Blueprint $table) {
+    $table->foreignId('user_id')->unique();
+    // add ->nullable() if make sense the related model exists without an owner
+});
+```
+
+#### Usage
+
+```php
+// Store
+$user->userDetail()->save($userDetail);
+$userDetail->user()->associate($user)->save();
+
+// Retrieve
+$user->userDetail; // UserDetail|null
+$userDetail->user; // User|null
+
+```
+
+## One to Many
+
+#### Models
+
+```php
+class User extends Model {
+    function posts(){
+        return $this->hasMany(Post::class);
+        //return $this->hasMany(Post::class, foreignKey: 'user_id', localKey: 'id');
+    }
+}
+
+class Post extends Model {
+    function user(){
+        return $this->belongsTo(User::class);
+        //return $this->belongsTo(
+        //  related: User::class,
+        //  foreignKey: 'user_id', // deduced by this function name
+        //  ownerKey: 'id'
+        // );
+    }
+}
+```
+
+#### Migrations
+
+```php
+Schema::create('posts', function (Blueprint $table) {
+    $table->foreignId('user_id')->index();
+});
+```
+
+#### Usage
+
+```php
+// Store
+$user->posts()->save($post);
+$user->posts()->saveMany([
+    $post1,
+    $post2,
+]);
+$post->user()->associate($user)->save();
+
+// Retrieve
+$user->posts; // Collection (empty Collection if none)
+$post->user; // User|null
+
+```
+
+## Many to Many
+
+#### Models
+
+```php
+class Product extends Model {
+    function orders(){
+        return $this->belongsToMany(Order::class);
+        //return $this->belongsToMany(
+        //      related: Order::class,
+        //      table: 'pivot_table', //default: Str::snake('Order') . '_' . Str::snake('Product') (in alphabetic order)
+        //      foreignPivotKey: 'id',
+        //      relatedPivotKey: 'order_id',
+        //      parentKey: 'id',
+        //      relatedKey: 'id' ,
+        // )->using(PivotModel::class) // optional use pivot model
+        // ->withTimestamps(); // optional use timestamps
+
+    }
+}
+
+class Order extends Model {
+    function products(){
+        return $this->belongsToMany(Product::class);
+
+}
+```
+
+#### Migrations
+
+```php
+
+// Default table name (in alphabetic order):
+// Str::snake('ModelOneName') . '_' . Str::snake('ModelTwoName')
+// = model_one_name_model_two_name
+Schema::create('order_product', function (Blueprint $table) {
+
+    $table->id(); // optional, but can be useful
+
+    $table->foreignId('order_id')->index()
+        ->constrained()->cascadeOnDelete(); // optional, but recommended in most of cases
+
+    $table->foreignId('product_id')->index()
+        ->constrained()->cascadeOnDelete(); // optional, but recommended in most of cases
+
+    $table->unique(['order_id', 'product_id']); // optional, but recommended
+    //$table->primary(['order_id', 'product_id']); // if you don't use $table->id();
+
+    $table->timestamps(); //needed when you use ->withTimestamps()
+});
+```
+
+#### Usage
+
+```php
+// Store
+$order->products()->attach([
+    $product1->id,
+    $product2->id,
+]);
+$order->products()->detach([
+    $product1->id,
+    $product2->id,
+]);
+$order->products()->sync([
+    $product1->id,
+    $product2->id,
+]);
+
+$user->roles()->attach([
+    1 => ['expires' => $expires],
+    2 => ['expires' => $expires],
+]);
+
+$user->roles()->sync([1 => ['expires' => true], 2, 3]);
+$user->roles()->syncWithPivotValues([1, 2, 3], ['active' => true]);
+
+$user->roles()->syncWithoutDetaching([1, 2, 3]);
+
+// Retrieve
+$user->posts; // Collection (empty Collection if none)
+$post->user; // User|null
+
+```
+
+## Morph to One
+
+#### Models
+
+```php
+
+
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+
+class TaxId extends Model {
+
+    public function taxable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+}
+
+trait Taxable {
+    function taxId(): MorphOne {
+        return $this->morphOne(TaxId::class,'taxable');
+    }
+}
+
+class Person extends Model {
+    use Taxable;
+}
+
+class Company extends Model {
+    use Taxable;
+}
+
+
+```
+
+#### Migrations
+
+```php
+Schema::create('tax_id', function (Blueprint $table) {
+
+    $table->morphs('taxable');
+    // shortcut for:
+    // taxable_id - integer
+    // taxable_type - string
+    // index(taxable_id, taxable_type)
+
+});
+```
