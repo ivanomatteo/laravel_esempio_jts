@@ -722,3 +722,81 @@ $filteredPosts = $user->posts->where('title','aaa');
 // that returns a filtered Collection
 
 ```
+# Eloquent Accessors and Mutators
+
+```php
+   use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+ 
+class User extends Model
+{
+    //accessor
+    protected function firstName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+        );
+    }
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => "{$this->first_name} {$this->last_name}"
+        );
+    }
+
+    /*
+    // old accessor syntax (still supported)
+
+    public function getFirstNameAttribute($value)
+    {
+        return ucfirst($value);
+    },
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+    */
+
+    //accessor and mutator
+    protected function lastName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+            set: fn (string $value) => strtolower($value),
+        );
+    }
+
+    /*
+    // old mutator syntax (still supported)
+    
+    public function setFirstNameAttribute($value)
+    {
+       $this->attributes['last_name'] = strtolower($value);
+    }
+
+    */
+}
+
+// the accessor became a runtime evaluated property
+// accessible as a snake-case property
+// Str::snake('firstName') --> first_name
+
+echo $user->first_name;
+
+$user->last_name = 'Foo'; // internally became "foo"
+echo $user->last_name; // print "Foo"
+
+$user->toArray(); 
+// [ 'id'=>1, 'name'=>'foo', ....]
+
+$user->append('full_name')->toArray(); 
+// [ 'id'=>1, 'name'=>'foo','full_name'=>'foo bar', ....]
+
+// append by default a computed value
+class User extends Model
+{
+    protected $appends = ['full_name'];
+}
+```
+
