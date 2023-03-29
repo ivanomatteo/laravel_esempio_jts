@@ -64,6 +64,9 @@
 # Command list
 php artisan list
 
+# Command list by prefix
+php artisan list make
+
 # Command help
 php artisan command:name --help
 
