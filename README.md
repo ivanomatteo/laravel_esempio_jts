@@ -673,7 +673,7 @@ echo $post->comments_count;
 $user->loadCount('posts');
 echo $user->posts_count;
 
-$user = User::withSum('posts','votes')
+$user = User::withSum('posts','votes');
 echo $user->posts_sum_votes;
 
 $posts = Post::withExists('comments');
