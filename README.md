@@ -40,17 +40,22 @@
 -   [Tailwind Css](https://tailwindcss.com/docs/utility-first)
 -   [Tailwind Snippets](https://tailwindcomponents.com/)
 
-# Links PHP New Features
+# Links PHP Features
 
--   [Php 8.2 new features](https://www.php.net/releases/8.2/en.php)
--   [Php 8.1 new features](https://www.php.net/releases/8.1/en.php)
--   [Php 8.0 new features](https://www.php.net/releases/8.0/en.php)
--   [Php 7.4 new features](https://www.php.net/manual/en/migration74.new-features.php)
--   [Php 7.3 new features](https://www.php.net/manual/en/migration73.new-features.php)
--   [Php 7.2 new features](https://www.php.net/manual/en/migration72.new-features.php)
--   [Php 7.1 new features](https://www.php.net/manual/en/migration71.new-features.php)
--   [Php 7.0 new features](https://www.php.net/manual/en/migration70.new-features.php)
--   [Php Watch](https://php.watch/versions)
+[Php8.2](https://www.php.net/releases/8.2/en.php),
+[Php8.1](https://www.php.net/releases/8.1/en.php),
+[Php8.0](https://www.php.net/releases/8.0/en.php),
+[Php7.4](https://www.php.net/manual/en/migration74.new-features.php),
+[Php7.3](https://www.php.net/manual/en/migration73.new-features.php),
+[Php7.2](https://www.php.net/manual/en/migration72.new-features.php),
+[Php7.1](https://www.php.net/manual/en/migration71.new-features.php),
+[Php7.0](https://www.php.net/manual/en/migration70.new-features.php)
+
+[Php Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php)
+
+[Php Magic Constants](https://www.php.net/manual/en/language.constants.magic.php)
+
+[Php Watch Site](https://php.watch/versions)
 
 # Artisan commands
 
