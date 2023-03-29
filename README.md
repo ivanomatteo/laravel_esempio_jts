@@ -242,7 +242,7 @@ class User extends Model {
 ```
 #### Usage
 
-Same as "One to One"
+Same as "One to One" (but read only)
 
 ## Many to Many
 
