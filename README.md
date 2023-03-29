@@ -5,8 +5,8 @@
 
 # Starter Kits
 
--   [Breeze](https://laravel.com/docs/10.x/starter-kits)
--   [JetStream](https://jetstream.laravel.com/3.x/installation.html)
+-   [Breeze](https://laravel.com/docs/starter-kits)
+-   [JetStream](https://jetstream.laravel.com)
 
 # Base Useful Packages
 
@@ -28,12 +28,12 @@
 
 # Quick Docs Links
 
--   [Migration Columns Types](https://laravel.com/docs/10.x/migrations#columns)
--   [Builtin Validators](https://laravel.com/docs/10.x/validation#available-validation-rules)
--   [Helpers](https://laravel.com/docs/10.x/helpers#available-methods)
--   [Collections](https://laravel.com/docs/10.x/collections#available-methods)
--   [Casts](https://laravel.com/docs/10.x/eloquent-mutators#attribute-casting)
--   [Framework API](https://laravel.com/api/10.x/)
+-   [Migration Columns Types](https://laravel.com/docs/migrations#columns)
+-   [Builtin Validators](https://laravel.com/docs/validation#available-validation-rules)
+-   [Helpers](https://laravel.com/docs/helpers#available-methods)
+-   [Collections](https://laravel.com/docs/collections#available-methods)
+-   [Casts](https://laravel.com/docs/eloquent-mutators#attribute-casting)
+-   [Framework API](https://laravel.com/api/)
 -   [Vue Js](https://vuejs.org/guide/introduction.html)
 -   [Prime Vue](https://primevue.org/installation/)
 -   [Inertia Js](https://inertiajs.com/)
