@@ -42,18 +42,18 @@
 
 # Links PHP Features
 
-- [Php8.2](https://www.php.net/releases/8.2/en.php),
-[Php8.1](https://www.php.net/releases/8.1/en.php),
-[Php8.0](https://www.php.net/releases/8.0/en.php),
-[Php7.4](https://www.php.net/manual/en/migration74.new-features.php),
-[Php7.3](https://www.php.net/manual/en/migration73.new-features.php),
-[Php7.2](https://www.php.net/manual/en/migration72.new-features.php),
-[Php7.1](https://www.php.net/manual/en/migration71.new-features.php),
-[Php7.0](https://www.php.net/manual/en/migration70.new-features.php)
+-   [Php8.2](https://www.php.net/releases/8.2/en.php),
+    [Php8.1](https://www.php.net/releases/8.1/en.php),
+    [Php8.0](https://www.php.net/releases/8.0/en.php),
+    [Php7.4](https://www.php.net/manual/en/migration74.new-features.php),
+    [Php7.3](https://www.php.net/manual/en/migration73.new-features.php),
+    [Php7.2](https://www.php.net/manual/en/migration72.new-features.php),
+    [Php7.1](https://www.php.net/manual/en/migration71.new-features.php),
+    [Php7.0](https://www.php.net/manual/en/migration70.new-features.php)
 
-- [Php Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php)
-- [Php Magic Constants](https://www.php.net/manual/en/language.constants.magic.php)
-- [Php Watch Site](https://php.watch/versions)
+-   [Php Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php)
+-   [Php Magic Constants](https://www.php.net/manual/en/language.constants.magic.php)
+-   [Php Watch Site](https://php.watch/versions)
 
 # Artisan commands
 
@@ -158,6 +158,7 @@ php artisan optimize:clear
 
 
 ```
+
 In case of problems:
 
 ```bash
@@ -614,3 +615,110 @@ Schema::create('taggables', function (Blueprint $table) {
 #### Usage
 
 Same as non polymorphic "Many to Many"
+
+# Relations Usage
+
+## Querying Relations
+
+Consider following relations:
+
+-   User -> hasMany -> Post
+-   Post -> hasMany -> Image
+-   Post -> hasMany -> Comment
+
+```php
+
+
+$activePosts = $user->posts()->where('active', 1)->get();
+
+/** Users that have at least 1 post
+ * @var Illuminate\Database\Eloquent\Collection<User> $users */
+$users = User::has('posts')->get();
+
+/** Users that doesn't have posts
+ * @var Illuminate\Database\Eloquent\Collection<User> $users */
+$users = User::doesntHave('posts')->get();
+
+/** Users that have at least 3 post
+ * @var Illuminate\Database\Eloquent\Collection<User> $users */
+$users = User::has('posts', '>=', 3)->get();
+
+/** Nested relations query
+ * Users that have at least 1 post that have at least 1 image
+ * @var Illuminate\Database\Eloquent\Collection<User> $users */
+$users = User::has('post.images')->get();
+
+/** Custom query
+ * @var Illuminate\Database\Eloquent\Collection<Post> $posts */
+$posts = Post::whereHas('comments', function (Builder $query) {
+    $query->where('content', 'like', 'code%');
+})->get();
+
+/** Custom query (absence)
+ * @var Illuminate\Database\Eloquent\Collection<Post> $posts */
+$posts = Post::whereDoesntHave('comments', function (Builder $query) {
+    $query->where('content', 'like', 'code%');
+})->get();
+
+
+```
+
+## Aggregating Related Models
+
+```php
+
+$post = Post::withCount('comments')->first();
+echo $post->comments_count;
+
+$user->loadCount('posts');
+echo $user->posts_count;
+
+$user = User::withSum('posts','votes')
+echo $user->posts_sum_votes;
+
+$posts = Post::withExists('comments');
+echo $user->comments_exists;
+
+```
+
+## Eager loading and Pitfalls
+
+```php
+
+$user = User::take(10)->get();
+$user->each(fn(User $u)=>dump($u->posts));
+//this will cause the execution of 11 queries:
+// 1x  "select * from users limit 10"
+// 10x "select * from posts where user_id = ?"
+
+
+$user = User::take(10)->with('posts')->get();
+$user->each(fn(User $u)=>dump($u->posts));
+//this will cause the execution of 2 queries only:
+// 1x  "select * from users limit 10"
+// 1x  "select * from posts where user_id in (?,?,?,?,?,?,?,?,?,?)"
+
+
+$posts = $user->posts()->get();
+$posts = $user->posts()->get();
+$posts = $user->posts()->get();
+//this will cause the execution of 3 queries:
+// 3x "select * from posts where user_id = ?"
+
+
+$posts = $user->posts;
+$posts = $user->posts;
+$posts = $user->posts;
+//this will cause the execution of 1 queries only:
+// 1x "select * from posts where user_id = ?"
+// because $user->posts gets loaded the first time and 
+// remain loaded in the $user instance
+
+
+$filteredPosts = $user->posts->where('title','aaa');
+// this will not cause a query,
+// in this case we are invoking ->where() method
+// of "Illuminate\Database\Eloquent\Collection"
+// that returns a filtered Collection
+
+```
