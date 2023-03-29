@@ -1,14 +1,14 @@
-# Creare un progetto
+# Create new project
 
 -   `composer create-project laravel/laravel nome_progetto`
--   `composer dump` (_ricrea gli indici di composer_)
+-   `composer dump` (_rebuild composer indexes_)
 
 # Starter Kits
 
 -   [Breeze](https://laravel.com/docs/10.x/starter-kits)
 -   [JetStream](https://jetstream.laravel.com/3.x/installation.html)
 
-# Pacchetti utili di base
+# Base Useful Packages
 
 -   https://github.com/barryvdh/laravel-debugbar
 
@@ -26,14 +26,31 @@
     -   `composer require --dev beyondcode/laravel-dump-server`
     -   `php artisan dump-server  ` (listen for dumps)
 
-# Links rapidi documentazione
+# Quick Docs Links
 
--   [Migration Tipi Colonne](https://laravel.com/docs/10.x/migrations#columns)
--   [Validatori predefiniti](https://laravel.com/docs/10.x/validation#available-validation-rules)
+-   [Migration Columns Types](https://laravel.com/docs/10.x/migrations#columns)
+-   [Builtin Validators](https://laravel.com/docs/10.x/validation#available-validation-rules)
 -   [Helpers](https://laravel.com/docs/10.x/helpers#available-methods)
 -   [Collections](https://laravel.com/docs/10.x/collections#available-methods)
 -   [Casts](https://laravel.com/docs/10.x/eloquent-mutators#attribute-casting)
 -   [Framework API](https://laravel.com/api/10.x/)
+-   [Vue Js](https://vuejs.org/guide/introduction.html)
+-   [Prime Vue](https://primevue.org/installation/)
+-   [Inertia Js](https://inertiajs.com/)
+-   [Tailwind Css](https://tailwindcss.com/docs/utility-first)
+-   [Tailwind Snippets](https://tailwindcomponents.com/)
+
+# Links PHP New Features
+
+-   [Php 8.2 new features](https://www.php.net/releases/8.2/en.php)
+-   [Php 8.1 new features](https://www.php.net/releases/8.1/en.php)
+-   [Php 8.0 new features](https://www.php.net/releases/8.0/en.php)
+-   [Php 7.4 new features](https://www.php.net/manual/en/migration74.new-features.php)
+-   [Php 7.3 new features](https://www.php.net/manual/en/migration73.new-features.php)
+-   [Php 7.2 new features](https://www.php.net/manual/en/migration72.new-features.php)
+-   [Php 7.1 new features](https://www.php.net/manual/en/migration71.new-features.php)
+-   [Php 7.0 new features](https://www.php.net/manual/en/migration70.new-features.php)
+-   [Php Watch](https://php.watch/versions)
 
 # Artisan commands
 
@@ -204,6 +221,7 @@ $post->user; // User|null
 Consider "One to Many" configuration as starting point
 
 #### Models
+
 ```php
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -240,6 +258,7 @@ class User extends Model {
 }
 
 ```
+
 #### Usage
 
 Same as "One to One" (but read only)
