@@ -199,6 +199,51 @@ $post->user; // User|null
 
 ```
 
+## One of Many
+
+Consider "One to Many" configuration as starting point
+
+#### Models
+```php
+
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+
+class User extends Model {
+
+    public function latestPost(): HasOne
+    {
+        return $this->hasOne(Post::class)->latestOfMany();
+
+        // alternatively you can convert an existing
+        // OneToMany relation to OneToOne:
+        // return $this->posts()->one()->latestOfMany();
+    }
+
+    public function oldestPost(): HasOne
+    {
+        return $this->hasOne(Post::class)->oldestOfMany();
+    }
+
+    public function mostViewedPost(): HasOne
+    {
+        return $this->hasOne(Post::class)->ofMany('views', 'max');
+    }
+    public function lastMonthMostViewedPost(): HasOne
+    {
+        return $this->hasOne(Price::class)->ofMany([
+            'views' => 'max',
+        ], function (Builder $query) {
+            $query->where('published_at', '>=', now()->subMonth());
+        });
+    }
+}
+
+```
+#### Usage
+
+Same as "One to One"
+
 ## Many to Many
 
 #### Models
@@ -217,8 +262,10 @@ class Product extends Model {
         //      relatedPivotKey: 'order_id',
         //      parentKey: 'id',
         //      relatedKey: 'id' ,
-        // )->using(PivotModel::class) // optional use pivot model
-        // ->withTimestamps(); // optional use timestamps
+        // )->withTimestamps() // optional use timestamps
+        // ->withPivot('active', 'created_by'); // optional retrieve pivot columns
+        // ->as('pivot_name_as') // Customizing The pivot Attribute Name
+        // ->using(PivotModel::class); // optional use pivot model
 
     }
 }
@@ -291,12 +338,12 @@ $order->products()->attach([
 ]);
 
 $order->products()->sync([
-        $product1->id => ['expires' => 3600], 
+        $product1->id => ['expires' => 3600],
         $product2->id,
     ]);
 
 $order->products()->syncWithPivotValues([
-        $product1->id, 
+        $product1->id,
         $product2->id,
     ], ['active' => true]);
 
@@ -308,7 +355,7 @@ $product->orders; // Collection<Order> (empty Collection if none)
 
 ```
 
-## Morph to One
+## Polymorphic One to One
 
 #### Models
 
@@ -347,11 +394,138 @@ class Company extends Model {
 ```php
 Schema::create('tax_id', function (Blueprint $table) {
 
-    $table->morphs('taxable');
-    // shortcut for:
-    // taxable_id - integer
-    // taxable_type - string
-    // index(taxable_id, taxable_type)
+    $taxable = 'taxable'
+    $this->string("{$taxable}_type");
+    $this->foreignId("{$taxable}_id");
+    $this->unique(["{$taxable}_type", "{$taxable}_id"]);
 
 });
 ```
+
+#### Usage
+
+Same as non polymorphic "One to One"
+Except:
+
+```php
+$taxid->taxable // Collection<Person|Company|...>
+```
+
+## Polymorphic One to Many
+
+#### Models
+
+```php
+
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+class Comment extends Model
+{
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+}
+
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
+trait Commentable {
+    function comments(): MorphMany {
+        return $this->morphMany(Comment::class,'commentable');
+    }
+}
+
+class Post extends Model {
+    use Commentable;
+}
+
+class Video extends Model {
+    use Commentable;
+}
+
+```
+
+#### Migrations
+
+```php
+Schema::create('comments', function (Blueprint $table) {
+
+    $table->morphs('commentable');
+    // shortcut for:
+    // $this->string("{$name}_type");
+    // $this->unsignedBigInteger("{$name}_id");
+    // $this->index(["{$name}_type", "{$name}_id"]);
+
+});
+```
+
+#### Usage
+
+Same as non polymorphic "One to Many"
+Except:
+
+```php
+$comment->commentable // Post|Video|null
+```
+
+## Polymorphic Many to Many
+
+#### Models
+
+```php
+
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+
+class Tag extends Model {
+
+    public function posts(): MorphToMany
+    {
+        return $this->morphedByMany(Post::class, 'taggable');
+    }
+
+
+    public function videos(): MorphToMany
+    {
+        return $this->morphedByMany(Video::class, 'taggable');
+    }
+}
+
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+
+trait Taggable {
+    function tags(): MorphToMany {
+        return $this->morphToMany(Tag::class,'taggable');
+    }
+}
+
+class Post extends Model {
+    use Taggable;
+}
+
+class Video extends Model {
+    use Taggable;
+}
+
+```
+
+#### Migrations
+
+```php
+//default table name Str::plural('taggable')
+Schema::create('taggables', function (Blueprint $table) {
+
+    $table->foreignId('tag_id')->index();
+        //->constrained()->cascadeOnDelete(); // optional
+
+    $table->morphs('taggable');
+    // shortcut for:
+    // $this->string("{$name}_type");
+    // $this->unsignedBigInteger("{$name}_id");
+    // $this->index(["{$name}_type", "{$name}_id"]);
+
+});
+```
+
+#### Usage
+
+Same as non polymorphic "Many to Many"
