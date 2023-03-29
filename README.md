@@ -100,15 +100,20 @@ php artisan db:seed --class SampleSeeder
 #### Models
 
 ```php
+
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class User extends Model {
-    function userDetail(){
+    function userDetail(): HasOne{
         return $this->hasOne(UserDetail::class);
         //return $this->hasOne(UserDetail::class, foreignKey: 'user_id', localKey: 'id');
     }
 }
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class UserDetail extends Model {
-    function user(){
+    function user(): BelongsTo{
         return $this->belongsTo(User::class);
     }
     //return $this->belongsTo(
@@ -145,15 +150,20 @@ $userDetail->user; // User|null
 #### Models
 
 ```php
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class User extends Model {
-    function posts(){
+    function posts(): HasMany{
         return $this->hasMany(Post::class);
         //return $this->hasMany(Post::class, foreignKey: 'user_id', localKey: 'id');
     }
 }
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Post extends Model {
-    function user(){
+    function user(): BelongsTo{
         return $this->belongsTo(User::class);
         //return $this->belongsTo(
         //  related: User::class,
@@ -184,7 +194,7 @@ $user->posts()->saveMany([
 $post->user()->associate($user)->save();
 
 // Retrieve
-$user->posts; // Collection (empty Collection if none)
+$user->posts; // Collection<Post> (empty Collection if none)
 $post->user; // User|null
 
 ```
@@ -194,8 +204,11 @@ $post->user; // User|null
 #### Models
 
 ```php
+
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 class Product extends Model {
-    function orders(){
+    function orders():BelongsToMany {
         return $this->belongsToMany(Order::class);
         //return $this->belongsToMany(
         //      related: Order::class,
@@ -210,10 +223,12 @@ class Product extends Model {
     }
 }
 
-class Order extends Model {
-    function products(){
-        return $this->belongsToMany(Product::class);
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+class Order extends Model {
+    function products():BelongsToMany {
+        return $this->belongsToMany(Product::class);
+    }
 }
 ```
 
@@ -245,6 +260,14 @@ Schema::create('order_product', function (Blueprint $table) {
 
 ```php
 // Store
+
+$order->products()->attach($product1->id);
+$order->products()->detach($product1->id);
+
+// with pivot value
+$order->products()->attach($product1->id, ['expires' => 3600]);
+
+// multiple
 $order->products()->attach([
     $product1->id,
     $product2->id,
@@ -258,19 +281,30 @@ $order->products()->sync([
     $product2->id,
 ]);
 
-$user->roles()->attach([
-    1 => ['expires' => $expires],
-    2 => ['expires' => $expires],
+$order->products()->syncWithoutDetaching([$product1->id, $product2->id]);
+
+// multiple with pivot values
+
+$order->products()->attach([
+    $product1->id => ['expires' => 3600],
+    $product2->id => ['expires' => 300],
 ]);
 
-$user->roles()->sync([1 => ['expires' => true], 2, 3]);
-$user->roles()->syncWithPivotValues([1, 2, 3], ['active' => true]);
+$order->products()->sync([
+        $product1->id => ['expires' => 3600], 
+        $product2->id,
+    ]);
 
-$user->roles()->syncWithoutDetaching([1, 2, 3]);
+$order->products()->syncWithPivotValues([
+        $product1->id, 
+        $product2->id,
+    ], ['active' => true]);
+
+
 
 // Retrieve
-$user->posts; // Collection (empty Collection if none)
-$post->user; // User|null
+$order->products; // Collection<Product> (empty Collection if none)
+$product->orders; // Collection<Order> (empty Collection if none)
 
 ```
 
@@ -280,9 +314,7 @@ $post->user; // User|null
 
 ```php
 
-
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class TaxId extends Model {
 
@@ -291,6 +323,8 @@ class TaxId extends Model {
         return $this->morphTo();
     }
 }
+
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Taxable {
     function taxId(): MorphOne {
@@ -305,7 +339,6 @@ class Person extends Model {
 class Company extends Model {
     use Taxable;
 }
-
 
 ```
 
