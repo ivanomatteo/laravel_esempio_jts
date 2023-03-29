@@ -141,6 +141,38 @@ php artisan db:seed --class SampleSeeder
 
 ```
 
+## Optimizations and Deploy
+
+[Docs Deploy](https://laravel.com/docs/deployment)
+
+```bash
+
+#apply all optimizations
+php artisan optimize
+
+#clear all optimizations
+php artisan optimize:clear
+
+
+```
+In case of problems:
+
+```bash
+
+# 1) manually delete cached files
+rm bootstrap/cache/*.php
+
+# 2) clear all optimizations
+php artisan optimize:clear
+
+# 3) clear application cache (with caution in production)
+php artisan cache:clear
+
+# 4) if in production: re-apply all optimizations
+php artisan optimize
+
+```
+
 # Relations Cheat Sheets
 
 ## One to One
