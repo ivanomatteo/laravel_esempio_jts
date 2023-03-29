@@ -136,6 +136,9 @@ php artisan migrate:rollback
 php artisan migrate:fresh --seed
 php artisan migrate:refresh --seed
 
+# clear the database
+php artisan db:wipe
+
 php artisan db:seed
 php artisan db:seed --class SampleSeeder
 
