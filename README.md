@@ -493,7 +493,7 @@ Same as non polymorphic "One to One"
 Except:
 
 ```php
-$taxid->taxable // Collection<Person|Company|...>
+$taxid->taxable // Person|Company
 ```
 
 ## Polymorphic One to Many
@@ -550,7 +550,7 @@ Same as non polymorphic "One to Many"
 Except:
 
 ```php
-$comment->commentable // Post|Video|null
+$comment->commentable // Post|Video
 ```
 
 ## Polymorphic Many to Many
