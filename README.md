@@ -725,7 +725,7 @@ $filteredPosts = $user->posts->where('title','aaa');
 # Eloquent Accessors and Mutators
 
 ```php
-   use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
  
 class User extends Model
