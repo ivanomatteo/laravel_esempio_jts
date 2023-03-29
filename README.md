@@ -103,7 +103,7 @@ php artisan make:migration alter_posts_add_notes --table posts
 
 ```
 
-**Su SQLite per modificare le colonne, installare il pacchetto:**
+**when using SQLite to alter columns install this package:**
 
 ```bash
 composer require doctrine/dbal
