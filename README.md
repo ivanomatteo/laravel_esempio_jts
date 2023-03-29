@@ -57,12 +57,35 @@
 
 # Artisan commands
 
+```bash
+
+# Command list
+php artisan list
+
+# Command help
+php artisan command:name --help
+
+# Route list
+php artisan route:list
+
+# Route list in json format
+php artisan route:list --json
+
+
+```
+
 ## Models and Migrations
 
 ```bash
 
 # Make model with Factory and Migration
-php artisan make:model Post -c -f -m
+php artisan make:model Post -f -m
+
+# Make model with Factory,Migration and Resource Controller
+php artisan make:model Post -f -m -c -r
+
+# Make model with Factory,Migration and Api Resource Controller
+php artisan make:model Post -f -m -c -r --api
 
 # Make Pivot Model with Migration
 php artisan make:model Pivot/PostUser -m -p
