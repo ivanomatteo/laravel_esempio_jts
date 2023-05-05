@@ -20,11 +20,23 @@ class DatabaseSeeder extends Seeder
     {
         DB::transaction(function () {
 
+            $domain = 'dev.local';
 
-            $user = \App\Models\User::factory()->withPersonalTeam()->create([
-                'name' => 'Test User',
-                'email' => 'test@example.local',
-            ]);
+            /** @var User */
+            $admin = User::factory()
+                ->withPersonalTeam()
+                ->create([
+                    'name' => 'Admin',
+                    'email' => "admin@$domain",
+                ]);
+
+            /** @var User */
+            $user = User::factory()
+                ->withPersonalTeam()
+                ->create([
+                    'name' => 'User',
+                    'email' => "user@$domain",
+                ]);
 
             $users = \App\Models\User::factory(5)->withPersonalTeam()->create();
             $users->push($user);
@@ -41,7 +53,6 @@ class DatabaseSeeder extends Seeder
                             );
                     });
             });
-
         });
     }
 }
