@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,5 +41,18 @@ Route::get('/blade', function () {
     return view('blade-example', [
         'messaggio' => 'hello!',
         'codice' => '<strong>Funziona!</strong>'
+    ]);
+});
+
+
+
+
+Route::get('/vue-test-page', function () {
+
+
+
+    return Inertia::render('TestPage', [
+        'user' => request()->user(),
+        'products' => Product::query()->paginate(),
     ]);
 });

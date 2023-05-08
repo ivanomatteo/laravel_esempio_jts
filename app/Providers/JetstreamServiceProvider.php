@@ -50,6 +50,7 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'update',
             'delete',
+            'edit-unit',
         ])->description('Administrator users can perform any action.');
 
         Jetstream::role('editor', 'Editor', [
@@ -57,5 +58,10 @@ class JetstreamServiceProvider extends ServiceProvider
             'create',
             'update',
         ])->description('Editor users have the ability to read, create, and update.');
+
+        Jetstream::role('collaborator', 'Collaborator', [
+            'read',
+            'create',
+        ])->description('Editor users have the ability to read and create.');
     }
 }
